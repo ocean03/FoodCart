@@ -1,4 +1,4 @@
-Truffle Debugger
+#Truffle Debugger
 Truffle Debugger is a command line tool integrated into the Truffle Framework which allows smart contract transactions to be debugged using the smart contract code and transaction artifacts. When the debugger is started, the command line interface provides a list of addresses transacted against or created during the course of the transactions, an initial entry point for the transaction and a list of available commands for using the debugger. Some of the debugger commands are highlighted below:
 
 
@@ -34,7 +34,7 @@ Solidity compiler version 0.4.24 or above
 Private blockchain (Ganache CLI v6.1.6 or above)
 The repository for this article can be found here, just in case you want to follow through the debugging process without coding the smart contract.
 
-Step 1: Building the smart contract
+#Step 1: Building the smart contract
 clone this repositori and understand the code written inside the contract.
 Before we proceed any further, let me explain the smart contract above. The FoodCart smart contract can be sectioned into 6 parts:
 
@@ -44,10 +44,11 @@ The events: The events ForSale and Sold log the details of the food items that a
 The struct: The struct FoodItem is a user-defined type which holds the properties of a food item. These properties can be accessed using a dot notation on the struct.
 The function modifiers: The modifiers doesFoodItemExist, isFoodItemForSale, and hasBuyerPaidEnough are functions that automatically check a condition prior to executing the function on which they are applied to. The roles of the function modifiers used in this smart contract are obvious from their names.
 The functions: The functions addFoodItem, buyFoodItem and fetchFoodItem adds food items to the contract, allows a food item to be bought and allows the details of food item to be viewed respectively. The constructor function initializes the owner state variable with the address that the contract is deployed on. The anonymous payable function allows ether to the sent to this contract.
-Step 2: Deploying the smart contract
+
+#Step 2: Deploying the smart contract
 Let’s deploy the smart contract on the private network.
 
-In your IDE, create a new file called 2_foodcart_migration.js in the migrations folder. Open this file after creating it and add this code:
+see the code inside the repo for deploy.
 
 This piece of code will enable the framework to deploy our FoodCart.sol contract to the private blockchain.
 
@@ -68,7 +69,7 @@ truffle(develop)> migrate
 Running the migrate command should produce this result:
 
 
-Step 3: Interacting with the smart contract
+#Step 3: Interacting with the smart contract
 Let’s interact with our smart contract and get a feel of how it works. We will be adding food items to the food cart, checking the details of food items added to the cart, and also buy food items off the cart with Ether from one of the accounts created for us when we started the development blockchain.
 
 Still in the truffle(develop)> prompt, create a foodCart variable and store the instance of the deployed contract in it.
@@ -90,7 +91,7 @@ The buyFoodItemFromCart allows us to buy food items off the cart by calling the 
 
 From the output, we see that the state of the item is Sold and the foodItemExist is now false, indicating that this item is no longer for sale.
 
-Step 4: Debugging errors in the smart contract
+#Step 4: Debugging errors in the smart contract
 If you have made it thus far, you deserve a Noble prize for Tenacity 🎖, enjoy the fame it brings. So far, we have seen how the contract should behave. To be able to use the Truffle Debugger feature, we would introduce some errors while interacting with the contract and then use the debugger to debug the error and get it fixed. To debug a transaction, we need to have the hash of the transaction and then run command debug [transaction hash] at the truffle(develop)> prompt followed by any of the debugger commands until we find out where the transaction failed.
 
 We will try the following invalid transactions:
@@ -138,5 +139,5 @@ Like we did in the first debugging process, we will use the step next debugger c
 
 In the image above, we see that at line 44, the modifier hasBuyerPaidEnough is called before the buyFoodItemFromCart function is executed, and at line 45, the modifier requires that value sent by the buyer is greater than or equal to the price of the item. However, we know that we flouted this condition hence, it halted our transaction. So if we send the right amount, we will surely buy the food item we need.
 
-Conclusion
+#Conclusion
 In conclusion, the importance of using a debugger while building smart contracts cannot be overemphasized. With a debugger, we can test our modifiers to ensure that our contract behaves appropriately, we can ensure that our contracts are secure by sending malicious transactions to our contract to see how it will behave and properly debug the transaction to see the instructions that have been executed up until the transaction halted, if it did. Most importantly, we can save our most valuable asset which is time, by using a debugger whenever we face issues with our smart contracts, instead of fumbling around with our code.
